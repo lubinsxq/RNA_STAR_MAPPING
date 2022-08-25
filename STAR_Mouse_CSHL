@@ -13,7 +13,7 @@ do
         echo $R2
         name=${i/R1_val_1.fq.gz/}
         echo $name
-        STAR --genomeDir /data/abdelwao-lab/hoggs/Reference_genomes/GRCm38/star --runThreadN 8 --readFilesIn $i $R2 --twopassMode Basic --twopass1readsN -1 --sjdbOverhang 100 --readFilesCommand zcat --outFileNamePrefix $name
+        STAR --genomeDir /grid/mills/home/xsun/index_file/RNA_STAR/mm10_STAR --runThreadN 8 --readFilesIn $i $R2 --twopassMode Basic --twopass1readsN -1 --sjdbOverhang 100 --readFilesCommand zcat --outFileNamePrefix $name
         samtools view -@ 8 -Sb ${name}Aligned.out.sam  > ${name}Aligned.out.bam
         samtools sort ${name}Aligned.out.bam > ${name}Aligned.out.sorted.bam
         rm ${name}Aligned.out.bam
