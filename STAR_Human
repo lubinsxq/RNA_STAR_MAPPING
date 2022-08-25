@@ -13,6 +13,6 @@ do
         echo $R2
         name=${i/R1_001_val_1.fq.gz/}
         echo $name
-        STAR --genomeDir /data/abdelwao-lab/hoggs/Reference_genomes/hg19/star/ --runThreadN 8 --readFilesIn $i $R2 --twopassMode Basic --twopass1readsN -1 --sjdbOverhang 100 --readFilesCommand zcat --outFileNamePrefix $name
+        STAR --genomeDir /grid/mills/home/xsun/index_file/RNA_STAR/hg38_STAR --runThreadN 8 --readFilesIn $i $R2 --twopassMode Basic --twopass1readsN -1 --sjdbOverhang 100 --readFilesCommand zcat --outFileNamePrefix $name
 
 done
