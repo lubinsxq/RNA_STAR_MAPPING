@@ -1,0 +1,23 @@
+#!/bin/bash
+#BUB -J myjobMPI
+#BSUB -n 12
+#BSUB -R span[ptile=12]
+#BSUB -R rusage[mem=4]
+#BSUB -W 20:00
+#BSUB -o %J.stdout
+#BSUB -eo %J.stderr
+for i in *R1*val_1.fq.gz
+do
+        echo $i
+        R2=${i/R1_val_1/R2_val_2}
+        echo $R2
+        name=${i/R1_val_1.fq.gz/}
+        echo $name
+        STAR --genomeDir /data/abdelwao-lab/hoggs/Reference_genomes/GRCm38/star --runThreadN 8 --readFilesIn $i $R2 --twopassMode Basic --twopass1readsN -1 --sjdbOverhang 100 --readFilesCommand zcat --outFileNamePrefix $name
+        samtools view -@ 8 -Sb ${name}Aligned.out.sam  > ${name}Aligned.out.bam
+        samtools sort ${name}Aligned.out.bam > ${name}Aligned.out.sorted.bam
+        rm ${name}Aligned.out.bam
+        samtools rmdup ${name}Aligned.out.sorted.bam ${name}Aligned.out.sorted.rd.bam
+        samtools index ${name}Aligned.out.sorted.rd.bam
+        rm ${name}Aligned.out.sorted.bam
+done
