@@ -1,0 +1,14 @@
+#!/bin/bash
+#BSUB -J myjobMPI
+#BSUB -n 12
+#BSUB -R span[ptile=12]
+#BSUB -R rusage[mem=4]
+#BSUB -W 20:00
+#BSUB -o %J.stdout
+#BSUB -eo %J.stderr
+Human=/data/abdelwao-lab/hoggs/Reference_genomes/hg19/gencode.v19.annotation.gtf
+Mouse=/data/abdelwao-lab/hoggs/Reference_genomes/GRCm38/gencode.vM25.primary_assembly.annotation.gtf
+Out=./RNASeq_counts_gene_id.txt
+Bams=./*.sorted.bam
+
+featureCounts -p -T 20 -O -F GTF -t exon -g gene_name -a $Human -o $Out $Bams
